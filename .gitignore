@@ -1,0 +1,14 @@
+custom.el
+.smex-items
+smex-items
+savehist
+projectile-bookmarks.eld
+ido.last
+places
+recentf
+auto-save-list/
+eshell/
+elpa/
+games/
+temp/
+*~
