@@ -1,8 +1,10 @@
 custom.el
+.DS_Store
 .smex-items
 smex-items
 savehist
 projectile-bookmarks.eld
+ac-comphist.dat
 ido.last
 places
 recentf

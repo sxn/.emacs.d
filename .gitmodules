@@ -1,0 +1,3 @@
+[submodule "vendor/evil"]
+	path = vendor/evil
+	url = https://github.com/Bogdanp/evil

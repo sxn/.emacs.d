@@ -1,3 +1,7 @@
+;;; init.el --- main config entry point -*- no-byte-compile: t -*-
+;;; Commentary:
+;;; Code:
+;;; Misc. builtin options
 (setq
  user-full-name "Sorin Muntean" user-mail-address "me@sorinmuntean.ro"
 
@@ -73,14 +77,14 @@
 ;;; UI
 ;; Font, fullscreen
 (when (window-system)
-  (add-to-list 'default-frame-alist '(font . "Fira Mono for Powerline-15"))
+  (add-to-list 'default-frame-alist '(font . "Fira Mono for Powerline-16"))
   (add-to-list 'default-frame-alist '(top . 5))
   (add-to-list 'default-frame-alist '(left . 0))
   (add-to-list 'default-frame-alist '(width . 188))
   (add-to-list 'default-frame-alist '(height . 50))
   (add-to-list 'default-frame-alist '(fullscreen . fullboth))
   ;; Transparency
-  (add-to-list 'default-frame-alist '(alpha 85 85))
+  (add-to-list 'default-frame-alist '(alpha 80 80))
   (set-frame-parameter (selected-frame) 'alpha '(85 85)))
 
 ;; Use y and n as yes and no
@@ -108,7 +112,7 @@
 
 ;;; Theme stuff
 ;; Disable current theme before loading the new one
-(defadvice load-theme 
+(defadvice load-theme
   (before theme-dont-propagate activate)
   (mapc #'disable-theme custom-enabled-themes))
 
@@ -147,6 +151,12 @@
 ;; ffap
 (use-package ffap
   :commands ffap-other-window)
+
+;; time
+(use-package time
+  :init
+  (setq display-time-default-load-average nil)
+  (add-hook 'after-init-hook #'display-time-mode))
 
 ;; paren
 (use-package paren
@@ -255,7 +265,7 @@
 ;;; Configure external packages
 ;; EVIL
 (use-package evil
-  :ensure t
+  :load-path "vendor/evil"
   :pin manual
   :preface
   :init
@@ -299,33 +309,6 @@
   (setq ag-highlight-search t
         ag-reuse-buffers t))
 
-;; helm
-;(use-package helm
-;  :ensure t
-;  ; :init
-;  ; (setq helm-follow-mode-persistent t)
-;  :config
-;  (progn
-;    ;; Dependencies
-;    (use-package projectile
-;      :ensure t
-;      :init
-;      (projectile-mode +1))
-;
-;    ;; Plugins
-;    (use-package helm-ag
-;      :ensure t)
-;
-;    (use-package helm-projectile
-;      :ensure t
-;      :init
-;      (helm-projectile-on))
-;
-;    (use-package helm-descbinds
-;      :ensure t
-;      :init (helm-descbinds-mode +1))
-;    (bind-keys ("C-;" . helm-M-x))))
-
 ;; it's magit!
 (use-package magit
   :ensure t
@@ -342,7 +325,7 @@
   :init
   (progn
     (defun sm-neotree-project-dir ()
-      "Open NeoTree using the git root."
+      "Open NeoTree using the projectile root."
       (interactive)
       (let ((project-dir (projectile-project-root))
             (file-name (buffer-file-name)))
@@ -350,7 +333,7 @@
             (progn
               (neotree-dir project-dir)
               (neotree-find file-name))
-          (progn (message "Could not find git project root.")
+          (progn (message "Could not find projectile project root.")
                  (neotree))))))
 
   :config
@@ -365,6 +348,88 @@
                 (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
   :bind ("C-c n" . sm-neotree-project-dir))
 
+;; web-mode
+(use-package web-mode
+  :ensure t
+  :mode (("\\.html?\\'" . web-mode)
+         ("\\.css\\'" . web-mode))
+  :init
+  (progn
+    (defadvice web-mode-highlight-part (around tweak-jsx activate)
+      (if (equal web-mode-content-type "jsx")
+          (let ((web-mode-enable-part-face nil))
+            ad-do-it)
+        ad-do-it))
+    (setq web-mode-code-indent-offset 2
+          web-mode-css-indent-offset 2
+          web-mode-markup-indent-offset 2
+
+          web-mode-style-padding 2
+          web-mode-script-padding 2
+
+          web-mode-enable-auto-closing t
+          web-mode-enable-auto-expanding t
+          web-mode-enable-auto-pairing t
+          web-mode-enable-current-element-highlight t
+
+          web-mode-engines-alist '(("django" . "\\.html\\'")))))
+
+;; exec-path-from-shell
+(when (memq window-system '(mac ns))
+  (use-package exec-path-from-shell
+    :commands exec-path-from-shell-initialize
+    :ensure t
+    :init
+    (add-hook 'after-init-hook #'exec-path-from-shell-initialize)))
+
+;; json mode
+(use-package json-mode
+  :mode (("\.json\\'" . json-mode)
+         ("\.eslintrc\\'" . json-mode))
+
+
+  :ensure t
+  :config
+  (setq json-reformat:indent-width 2
+        js-indent-level 2))
+
+;; js2
+(use-package js2-mode
+  :mode ("\.js\\'" . js2-mode)
+  :ensure t
+  :config
+  (setq js2-basic-offset 2
+        js2-strict-missing-semi-warning t
+        js2-global-externs '("module" "require" "describe" "it" "process" "__dirname")))
+
+;; rjxs-mode
+(use-package rjsx-mode
+  :ensure t
+  :mode (("components?\\/.*\\.js\\'" . rjsx-mode))
+  :bind ("C-c C-d" . rjsx-delete-creates-full-tag))
+
+;; dumb-jump
+(use-package dumb-jump
+  :ensure t
+  :init
+  (use-package ivy
+    :ensure t)
+  :config (setq dumb-jump-selector 'ivy)
+  :bind ("C-c ." . dumb-jump-go-other-window))
+
+;; flycheck!
+(use-package flycheck
+  :ensure t
+  :init (add-hook 'after-init-hook #'global-flycheck-mode)
+  :config
+  (progn
+    (setq-default flycheck-temp-prefix ".flycheck")
+    (setq-default flycheck-disabled-checkers
+                  (append flycheck-disabled-checkers
+                          '(javascript-jshint)))
+    (flycheck-add-mode 'javascript-eslint 'rjsx-mode)))
 
 
 (provide 'init)
+
+;;; init.el ends here
