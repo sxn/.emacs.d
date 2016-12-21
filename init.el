@@ -10,9 +10,13 @@
  ;;; Don't show startup message
  inhibit-startup-message t
 
+
  ;; EMACS' default GC threshold is <1MB. Give it 16MB instead.
  gc-cons-threshold 16777216
  garbage-collection-messages nil
+
+ ;; Don't interact with git when editing symlinked files.
+ vc-follow-symlinks nil
 
  ;;; auto-compile
  load-prefer-newer t)
