@@ -430,6 +430,14 @@
     (flycheck-add-mode 'javascript-eslint 'rjsx-mode)))
 
 
+(use-package intero
+  :load-path "vendor/intero/elisp"
+  :init
+  (setq haskell-stylish-on-save t)
+  (add-hook 'haskell-mode-hook #'intero-mode)
+  :bind ("C-c ." . intero-goto-definition))
+
+
 (provide 'init)
 
 ;;; init.el ends here

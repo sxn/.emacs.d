@@ -1,3 +1,6 @@
 [submodule "vendor/evil"]
 	path = vendor/evil
 	url = https://github.com/Bogdanp/evil
+[submodule "vendor/intero"]
+	path = vendor/intero
+	url = git@github.com:commercialhaskell/intero.git
