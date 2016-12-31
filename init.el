@@ -434,12 +434,61 @@
     (flycheck-add-mode 'javascript-eslint 'rjsx-mode)))
 
 
+;; Haskell
 (use-package intero
   :load-path "vendor/intero/elisp"
   :init
   (setq haskell-stylish-on-save t)
   (add-hook 'haskell-mode-hook #'intero-mode)
   :bind ("C-c ." . intero-goto-definition))
+
+
+;; Python
+(use-package company
+  :diminish company-mode
+  :ensure t
+  :init
+  (progn
+    (setq company-idle-delay 0.25)
+
+    (add-hook 'after-init-hook #'global-company-mode))
+  :config
+  (bind-key "C-c C-y" #'company-yasnippet))
+
+(use-package yasnippet
+  :commands (yas-minor-mode yas-reload-all)
+  :diminish yas-minor-mode
+  :ensure t
+  :config
+  (yas-reload-all))
+
+(use-package pyvenv
+  :ensure t)
+(use-package python
+  :mode ("\\.py\\'"   . python-mode)
+  :interpreter ("python" . python-mode)
+  :config
+  (progn
+    (use-package elpy
+      :commands (elpy-enable)
+      :ensure t
+      :init
+      (with-eval-after-load 'python (elpy-enable))
+      :config
+      (progn
+        (bind-keys :map python-mode-map
+                   ("C-c v" . pyvenv-workon)
+                   ("C-c ." . elpy-goto-definition)
+                   ("C-c ," . pop-tag-mark))
+
+        (custom-set-variables
+         '(elpy-modules
+           (quote
+            (elpy-module-company
+             elpy-module-eldoc
+             elpy-module-pyvenv
+             elpy-module-sane-defaults))))))))
+
 
 
 (provide 'init)
