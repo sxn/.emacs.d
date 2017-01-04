@@ -86,9 +86,9 @@
   (add-to-list 'default-frame-alist '(left . 0))
   (add-to-list 'default-frame-alist '(width . 188))
   (add-to-list 'default-frame-alist '(height . 50))
-  (add-to-list 'default-frame-alist '(fullscreen . fullboth))
+  ;;(add-to-list 'default-frame-alist '(fullscreen . fullboth))
   ;; Transparency
-  (add-to-list 'default-frame-alist '(alpha 80 80))
+  (add-to-list 'default-frame-alist '(alpha 95 95))
   (set-frame-parameter (selected-frame) 'alpha '(85 85)))
 
 ;; Use y and n as yes and no
@@ -488,6 +488,31 @@
              elpy-module-eldoc
              elpy-module-pyvenv
              elpy-module-sane-defaults))))))))
+
+
+
+;; Markdown
+(use-package flymd
+  :ensure t
+  :init
+  (progn
+    (defun sm-flymd-browser-function (url)
+      (let ((process-environment (browse-url-process-environment)))
+        (apply 'start-process
+               (concat "firefox " url)
+               nil
+               "/usr/bin/open"
+               (list "-a" "firefox" url)))))
+  :config
+  (setq flymd-browser-open-function 'sm-flymd-browser-function))
+
+(use-package markdown-mode+
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
 
 
 
