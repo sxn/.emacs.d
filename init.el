@@ -49,6 +49,7 @@
 (add-to-list 'load-path (locate-user-emacs-file "vendor/packed"))
 (add-to-list 'load-path (locate-user-emacs-file "vendor/auto-compile"))
 (add-to-list 'load-path (locate-user-emacs-file "vendor/use-package"))
+(add-to-list 'load-path (locate-user-emacs-file "vendor/prettier-js"))
 
 
 
@@ -406,6 +407,19 @@
         js2-strict-missing-semi-warning t
         js2-global-externs '("module" "require" "describe" "it" "process" "__dirname")))
 
+;; make js pretty?
+(use-package prettier-js
+  :load-path "vendor/prettier-js"
+  :init
+  (progn
+    (defun sm-prettier-before-save ()
+      (interactive)
+      (when (eq major-mode 'js2-mode) (prettier))))
+  :config
+  (add-hook 'js2-mode-hook
+            (lambda ()
+              (add-hook 'before-save-hook #'prettier-before-save))))
+
 ;; rjxs-mode
 (use-package rjsx-mode
   :ensure t
@@ -438,8 +452,9 @@
 (use-package intero
   :load-path "vendor/intero/elisp"
   :init
-  (setq haskell-stylish-on-save t)
-  (add-hook 'haskell-mode-hook #'intero-mode)
+  (progn
+    (setq haskell-stylish-on-save t)
+    (add-hook 'haskell-mode-hook #'intero-mode))
   :bind ("C-c ." . intero-goto-definition))
 
 
