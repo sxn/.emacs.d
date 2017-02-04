@@ -39,6 +39,12 @@
   :type 'string
   :group 'prettier)
 
+(defcustom prettier-target-modes
+  '("js-mode")
+  "List of major modes to be used by 'prettier-before-save'."
+  :type '(list string)
+  :group 'prettier)
+
 (defcustom prettier-show-errors 'buffer
     "Where to display refmt error output.
 It can either be displayed in its own buffer, in the echo area, or not at all.
@@ -64,7 +70,7 @@ a `before-save-hook'."
   "Add this to .emacs to run refmt on the current buffer when saving:
  (add-hook 'before-save-hook 'prettier-before-save)."
   (interactive)
-  (when (member major-mode '(js-mode js2-mode)) (prettier)))
+  (when (seq-contains prettier-target-modes (symbol-name major-mode)) (prettier)))
 
 (defun prettier--goto-line (line)
   (goto-char (point-min))
