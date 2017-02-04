@@ -405,26 +405,27 @@
   :config
   (setq js2-basic-offset 2
         js2-strict-missing-semi-warning t
-        js2-global-externs '("module" "require" "describe" "it" "process" "__dirname")))
+        js2-global-externs '("module" "require" "describe" "it" "process" "__dirname")
+        mode-require-final-newline nil))
 
 ;; make js pretty?
 (use-package prettier-js
   :load-path "vendor/prettier-js"
   :init
-  (progn
-    (defun sm-prettier-before-save ()
-      (interactive)
-      (when (eq major-mode 'js2-mode) (prettier))))
+  (setq prettier-target-modes '("js2-mode" "rjsx-mode"))
   :config
-  (add-hook 'js2-mode-hook
-            (lambda ()
-              (add-hook 'before-save-hook #'prettier-before-save))))
+  (progn
+    (add-hook 'js2-mode-hook
+              (lambda ()
+                (add-hook 'before-save-hook #'prettier-before-save)))))
 
 ;; rjxs-mode
 (use-package rjsx-mode
   :ensure t
   :mode (("components?\\/.*\\.js\\'" . rjsx-mode))
-  :bind ("C-c C-d" . rjsx-delete-creates-full-tag))
+  :bind ("C-c C-d" . rjsx-delete-creates-full-tag)
+  :config
+  (setq mode-require-final-newline nil))
 
 ;; dumb-jump
 (use-package dumb-jump
@@ -455,7 +456,8 @@
   (progn
     (setq haskell-stylish-on-save t)
     (add-hook 'haskell-mode-hook #'intero-mode))
-  :bind ("C-c ." . intero-goto-definition))
+  :config
+  (define-key intero-mode-map (kbd "C-c .") 'intero-goto-definition))
 
 
 ;; Python
@@ -464,18 +466,15 @@
   :ensure t
   :init
   (progn
-    (setq company-idle-delay 0.25)
+    (setq company-idle-delay 0.75)
 
     (add-hook 'after-init-hook #'global-company-mode))
   :config
   (bind-key "C-c C-y" #'company-yasnippet))
 
 (use-package yasnippet
-  :commands (yas-minor-mode yas-reload-all)
-  :diminish yas-minor-mode
   :ensure t
-  :config
-  (yas-reload-all))
+  :init (yas-global-mode 1))
 
 (use-package pyvenv
   :ensure t)
