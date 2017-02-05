@@ -4,6 +4,7 @@ custom.el
 smex-items
 savehist
 projectile-bookmarks.eld
+projectile.cache
 ac-comphist.dat
 ido.last
 places
