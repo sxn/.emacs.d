@@ -490,10 +490,10 @@
     (use-package pyvenv
       :ensure t)
 
-    (use-package py-yapf
+    (use-package yapfify
       :ensure t
       :config
-      (add-hook 'python-mode-hook 'py-yapf-enable-on-save))
+      (add-hook 'python-mode-hook 'yapf-mode))
 
     (use-package elpy
       :commands (elpy-enable)
