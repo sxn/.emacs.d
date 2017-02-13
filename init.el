@@ -82,7 +82,7 @@
 ;;; UI
 ;; Font, fullscreen
 (when (window-system)
-  (add-to-list 'default-frame-alist '(font . "Fira Mono for Powerline-16"))
+  (add-to-list 'default-frame-alist '(font . "Operator Mono-18"))
   (add-to-list 'default-frame-alist '(top . 5))
   (add-to-list 'default-frame-alist '(left . 0))
   (add-to-list 'default-frame-alist '(width . 188))
@@ -219,8 +219,14 @@
                                           'term-mode
                                           'org-agenda-mode)))
           (hl-line-mode +1))))
-
     (sm-global-hl-line-mode)))
+
+;; highlight-indent-guides
+(use-package highlight-indent-guides
+  :ensure t
+  :init
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  (add-hook 'prog-mode-hook 'highlight-indentation-current-column-mode))
 
 ;; smex
 (use-package smex
@@ -461,28 +467,34 @@
 
 
 ;; Python
-(use-package company
-  :diminish company-mode
-  :ensure t
-  :init
-  (progn
-    (setq company-idle-delay 0.75)
 
-    (add-hook 'after-init-hook #'global-company-mode))
-  :config
-  (bind-key "C-c C-y" #'company-yasnippet))
-
-(use-package yasnippet
-  :ensure t
-  :init (yas-global-mode 1))
-
-(use-package pyvenv
-  :ensure t)
 (use-package python
   :mode ("\\.py\\'"   . python-mode)
   :interpreter ("python" . python-mode)
   :config
   (progn
+    (use-package company
+      :ensure t
+      :diminish company-mode
+      :init
+      (progn
+        (setq company-idle-delay 0.75)
+        (add-hook 'after-init-hook #'global-company-mode))
+      :config
+      (bind-key "C-c C-y" #'company-yasnippet))
+
+    (use-package yasnippet
+      :ensure t
+      :init (yas-global-mode 1))
+
+    (use-package pyvenv
+      :ensure t)
+
+    (use-package py-yapf
+      :ensure t
+      :config
+      (add-hook 'python-mode-hook 'py-yapf-enable-on-save))
+
     (use-package elpy
       :commands (elpy-enable)
       :ensure t
