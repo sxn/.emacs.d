@@ -605,13 +605,13 @@
 
     org-todo-keyword-faces
     (quote (("TODO" :foreground "red" :weight bold)
-            ("NEXT" :foreground "blue" :weight bold)
+            ("NEXT" :foreground "orange" :weight bold)
             ("DONE" :foreground "forest green" :weight bold)
             ("WAITING" :foreground "orange" :weight bold)
             ("HOLD" :foreground "magenta" :weight bold)
-            ("CANCELLED" :foreground "forest green" :weight bold)
-            ("MEETING" :foreground "forest green" :weight bold)
-            ("PHONE" :foreground "forest green" :weight bold))))
+            ("CANCELLED" :foreground "pink" :weight bold)
+            ("MEETING" :foreground "yellow" :weight bold)
+            ("PHONE" :foreground "brown" :weight bold))))
 
      ;; Text editing?
      (progn
