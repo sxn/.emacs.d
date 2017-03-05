@@ -10,6 +10,10 @@
  ;;; Don't show startup message
  inhibit-startup-message t
 
+ ;;; Mac port
+ mac-option-modifier 'meta
+ mac-command-modifier 'hyper
+ mac-mouse-wheel-smooth-scroll t
 
  ;; EMACS' default GC threshold is <1MB. Give it 16MB instead.
  gc-cons-threshold 16777216
@@ -458,6 +462,7 @@
 ;; Haskell
 (use-package intero
   :load-path "vendor/intero/elisp"
+  :mode "\\.hs\\'"
   :init
   (progn
     (setq haskell-stylish-on-save t)
@@ -473,22 +478,26 @@
   :interpreter ("python" . python-mode)
   :config
   (progn
+
     (use-package company
-      :ensure t
       :diminish company-mode
+      :ensure t
       :init
       (progn
-        (setq company-idle-delay 0.75)
-        (add-hook 'after-init-hook #'global-company-mode))
-      :config
-      (bind-key "C-c C-y" #'company-yasnippet))
+        (setq company-idle-delay 0.25)
+
+        (add-hook 'after-init-hook #'global-company-mode)))
 
     (use-package yasnippet
       :ensure t
-      :init (yas-global-mode 1))
+      :init (yas-global-mode 1)
+      :config
+      (bind-key "C-c C-y" #'yas-insert-snippet))
 
     (use-package pyvenv
-      :ensure t)
+      :ensure t
+      :config
+      (define-key python-mode-map (kbd "C-c v") 'pyvenv-workon))
 
     (use-package yapfify
       :ensure t
@@ -503,7 +512,6 @@
       :config
       (progn
         (bind-keys :map python-mode-map
-                   ("C-c v" . pyvenv-workon)
                    ("C-c ." . elpy-goto-definition)
                    ("C-c ," . pop-tag-mark))
 
@@ -539,6 +547,77 @@
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
+
+
+;;; Org
+(use-package org
+  :ensure t
+  :commands (org-agenda org-capture)
+  :mode ("\\.org\\'" . org-mode)
+  :bind (("C-c a" . org-agenda)
+         ("C-c c" . org-capture))
+  :preface
+  (defvar sm-org-dir (expand-file-name "~/OneDrive/Documents/Personal/org"))
+  (defvar sm-org-main-file (expand-file-name (concat sm-org-dir "/Sorin.org")))
+  (defvar sm-org-notes-file (expand-file-name (concat sm-org-dir "/refile.org")))
+  (defvar sm-org-journal-file (expand-file-name (concat sm-org-dir "/journal.org")))
+  (defvar sm-org-agenda-files-path sm-org-dir)
+  ;; Remove empty LOGBOOK drawers on clock out
+  (defun sm-remove-empty-drawer-on-clock-out ()
+    (interactive)
+    (save-excursion
+      (beginning-of-line 0)
+      (org-remove-empty-drawer-at "LOGBOOK" (point))))
+  :config
+  (progn
+    (setq
+     ;;; Completion
+     org-outline-path-complete-in-steps nil
+
+     ;;; Todos
+     ;; Log when todos are marked as done
+     org-log-done 'time
+
+     ;;; Custom capture templates
+     org-capture-templates
+     (quote (("t" "todo" entry (file sm-org-notes-file)
+              "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+             ("n" "note" entry (file sm-org-notes-file)
+              "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+             ("j" "Journal" entry (file+datetree sm-org-journal-file)
+              "* %?\n%U\n" :clock-in t :clock-resume t)
+             ("m" "Meeting" entry (file sm-org-notes-file)
+              "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+             ("h" "Habit" entry (file sm-org-notes-file)
+              "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")))
+
+     ;; Refile up to the 2nd level of any file
+     org-refile-targets '((nil :maxlevel . 2)
+                          (org-agenda-files :maxlevel . 2))
+
+     ;;; Agenda
+     ;; Set path to agenda files.
+     org-agenda-files (list sm-org-agenda-files-path)
+
+    org-todo-keywords
+    (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+            (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")))
+
+    org-todo-keyword-faces
+    (quote (("TODO" :foreground "red" :weight bold)
+            ("NEXT" :foreground "blue" :weight bold)
+            ("DONE" :foreground "forest green" :weight bold)
+            ("WAITING" :foreground "orange" :weight bold)
+            ("HOLD" :foreground "magenta" :weight bold)
+            ("CANCELLED" :foreground "forest green" :weight bold)
+            ("MEETING" :foreground "forest green" :weight bold)
+            ("PHONE" :foreground "forest green" :weight bold))))
+
+     ;; Text editing?
+     (progn
+       (add-hook 'org-mode-hook #'auto-fill-mode)
+       (add-hook 'org-clock-out-hook #'sm-remove-empty-drawer-on-clock-out))))
+
 
 
 
