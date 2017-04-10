@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: React HOC
+# key: rhoc
+# --
+
+import React, { PropTypes } from "react";
+
+const $1 = Component => {
+  const $1 = ($2) => ($3);
+
+  $1.displayName = \`$1(${Component.displayName || Component.name})\`;
+
+  return $1;
+};
+
+export default $1;
