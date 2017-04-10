@@ -93,8 +93,9 @@
   (add-to-list 'default-frame-alist '(height . 50))
   ;;(add-to-list 'default-frame-alist '(fullscreen . fullboth))
   ;; Transparency
-  (add-to-list 'default-frame-alist '(alpha 95 95))
-  (set-frame-parameter (selected-frame) 'alpha '(85 85)))
+
+ (set-frame-parameter (selected-frame) 'alpha '(97 . 97))
+ (add-to-list 'default-frame-alist '(alpha . (95 . 95))))
 
 ;; Use y and n as yes and no
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -387,7 +388,11 @@
           web-mode-enable-auto-pairing t
           web-mode-enable-current-element-highlight t
 
-          web-mode-engines-alist '(("django" . "\\.html\\'")))))
+          web-mode-engines-alist '(("django" . "\\.html\\'"))))
+  :config
+  (use-package less-css-mode
+    :ensure t
+    :mode (("\\.less\\'" . less-css-mode))))
 
 ;; exec-path-from-shell
 (when (memq window-system '(mac ns))
@@ -401,50 +406,72 @@
 (use-package json-mode
   :mode (("\.json\\'" . json-mode)
          ("\.eslintrc\\'" . json-mode))
-
-
   :ensure t
   :config
   (setq json-reformat:indent-width 2
         js-indent-level 2))
 
-;; js2
-(use-package js2-mode
-  :mode ("\.js\\'" . js2-mode)
+(defun sm-setup-tide ()
+  (setq-local company-tooltip-align-annotations t)
+  (setq-local flycheck-check-syntax-automatically '(save mode-enabled)))
+
+;; Tide
+(use-package tide
   :ensure t
   :config
-  (setq js2-basic-offset 2
-        js2-strict-missing-semi-warning t
-        js2-global-externs '("module" "require" "describe" "it" "process" "__dirname")
-        mode-require-final-newline nil))
+  (bind-keys :map tide-mode-map
+             ("C-c d" . tide-documentation-at-point)
+             ("C-c ." . tide-jump-to-definition)
+             ("C-c ," . tide-jump-back)))
+
+;;; Typescript
+(use-package typescript-mode
+  :mode (("\.ts\\'" . typescript-mode))
+  :ensure t
+  :config
+  (add-hook 'typescript-mode-hook (lambda() (add-hook 'before-save-hook #'prettier-before-save)))
+  (add-hook 'typescript-mode-hook #'eldoc-mode)
+  (add-hook 'typescript-mode-hook #'tide-setup)
+  (add-hook 'typescript-mode-hook #'tide-hl-identifier-mode)
+  (add-hook 'typescript-mode-hook #'sm-setup-tide)
+  (setq typescript-indent-level 2))
+
+
+;; js2
+;; (use-package js2-mode
+;;   :mode ("\.js\\'" . js2-mode)
+;;   :ensure t
+;;   :config
+;;   (add-hook 'before-save-hook #'prettier-before-save)
+;;   (add-hook 'js2-mode-hook #'eldoc-mode)
+;;   (add-hook 'js2-mode-hook #'tide-setup)
+;;   (add-hook 'js2-mode-hook #'tide-hl-identifier-mode)
+;;   (add-hook 'js2-mode-hook #'sm-setup-tide)
+;;   (setq js2-basic-offset 2
+;;         js2-strict-missing-semi-warning t
+;;         js2-global-externs '("module" "require" "describe" "it" "process" "__dirname")
+;;         mode-require-final-newline nil))
+
+;; rjss-mode
+(use-package rjsx-mode
+  :ensure t
+  :mode ("\.js\\'" . rjsx-mode)
+;;  :mode (("components?\\/.*\\.js\\'" . rjsx-mode))
+  :bind ("C-c C-d" . rjsx-delete-creates-full-tag)
+  :config
+  (setq js-indent-level 2)
+  (add-hook 'rjsx-mode-hook (lambda() (add-hook 'before-save-hook #'prettier-before-save)))
+  (add-hook 'rjsx-mode-hook #'eldoc-mode)
+  (add-hook 'rjsx-mode-hook #'tide-setup)
+  (add-hook 'rjsx-mode-hook #'tide-hl-identifier-mode)
+  (add-hook 'rjsx-mode-hook #'sm-setup-tide)
+  (setq mode-require-final-newline nil))
 
 ;; make js pretty?
 (use-package prettier-js
   :load-path "vendor/prettier-js"
   :init
-  (setq prettier-target-modes '("js2-mode" "rjsx-mode"))
-  :config
-  (progn
-    (add-hook 'js2-mode-hook
-              (lambda ()
-                (add-hook 'before-save-hook #'prettier-before-save)))))
-
-;; rjxs-mode
-(use-package rjsx-mode
-  :ensure t
-  :mode (("components?\\/.*\\.js\\'" . rjsx-mode))
-  :bind ("C-c C-d" . rjsx-delete-creates-full-tag)
-  :config
-  (setq mode-require-final-newline nil))
-
-;; dumb-jump
-(use-package dumb-jump
-  :ensure t
-  :init
-  (use-package ivy
-    :ensure t)
-  :config (setq dumb-jump-selector 'ivy)
-  :bind ("C-c ." . dumb-jump-go-other-window))
+  (setq prettier-target-modes '("js2-mode" "rjsx-mode")))
 
 ;; flycheck!
 (use-package flycheck
@@ -471,8 +498,13 @@
   (define-key intero-mode-map (kbd "C-c .") 'intero-goto-definition))
 
 
-;; Python
+(use-package yasnippet
+  :ensure t
+  :init (yas-global-mode 1)
+  :config
+  (bind-key "C-c C-y" #'yas-insert-snippet))
 
+;; Python
 (use-package python
   :mode ("\\.py\\'"   . python-mode)
   :interpreter ("python" . python-mode)
@@ -487,12 +519,6 @@
         (setq company-idle-delay 0.25)
 
         (add-hook 'after-init-hook #'global-company-mode)))
-
-    (use-package yasnippet
-      :ensure t
-      :init (yas-global-mode 1)
-      :config
-      (bind-key "C-c C-y" #'yas-insert-snippet))
 
     (use-package pyvenv
       :ensure t
@@ -619,6 +645,16 @@
        (add-hook 'org-clock-out-hook #'sm-remove-empty-drawer-on-clock-out))))
 
 
+;;; Yaml
+(use-package yaml-mode
+  :ensure t
+  :mode "\\.yml\\'")
+
+
+;;; REST!
+(use-package restclient
+  :ensure t
+  :mode ("\\.http\\'" . restclient-mode))
 
 
 (provide 'init)
