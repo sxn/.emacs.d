@@ -436,27 +436,10 @@
   (add-hook 'typescript-mode-hook #'sm-setup-tide)
   (setq typescript-indent-level 2))
 
-
-;; js2
-;; (use-package js2-mode
-;;   :mode ("\.js\\'" . js2-mode)
-;;   :ensure t
-;;   :config
-;;   (add-hook 'before-save-hook #'prettier-before-save)
-;;   (add-hook 'js2-mode-hook #'eldoc-mode)
-;;   (add-hook 'js2-mode-hook #'tide-setup)
-;;   (add-hook 'js2-mode-hook #'tide-hl-identifier-mode)
-;;   (add-hook 'js2-mode-hook #'sm-setup-tide)
-;;   (setq js2-basic-offset 2
-;;         js2-strict-missing-semi-warning t
-;;         js2-global-externs '("module" "require" "describe" "it" "process" "__dirname")
-;;         mode-require-final-newline nil))
-
-;; rjss-mode
+;; rjsx-mode
 (use-package rjsx-mode
   :ensure t
   :mode ("\.js\\'" . rjsx-mode)
-;;  :mode (("components?\\/.*\\.js\\'" . rjsx-mode))
   :bind ("C-c C-d" . rjsx-delete-creates-full-tag)
   :config
   (setq js-indent-level 2)
@@ -618,8 +601,8 @@
               "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")))
 
      ;; Refile up to the 2nd level of any file
-     org-refile-targets '((nil :maxlevel . 2)
-                          (org-agenda-files :maxlevel . 2))
+     org-refile-targets '((nil :maxlevel . 4)
+                          (org-agenda-files :maxlevel . 4))
 
      ;;; Agenda
      ;; Set path to agenda files.
