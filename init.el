@@ -481,11 +481,23 @@
   (define-key intero-mode-map (kbd "C-c .") 'intero-goto-definition))
 
 
+;;; Code snippets
 (use-package yasnippet
   :ensure t
   :init (yas-global-mode 1)
   :config
   (bind-key "C-c C-y" #'yas-insert-snippet))
+
+
+;;; Code completion
+(use-package company
+    :diminish company-mode
+    :ensure t
+    :init
+    (progn
+    (setq company-idle-delay 0.25)
+
+    (add-hook 'after-init-hook #'global-company-mode)))
 
 ;; Python
 (use-package python
@@ -493,15 +505,6 @@
   :interpreter ("python" . python-mode)
   :config
   (progn
-
-    (use-package company
-      :diminish company-mode
-      :ensure t
-      :init
-      (progn
-        (setq company-idle-delay 0.25)
-
-        (add-hook 'after-init-hook #'global-company-mode)))
 
     (use-package pyvenv
       :ensure t
