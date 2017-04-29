@@ -643,6 +643,30 @@
   :mode ("\\.http\\'" . restclient-mode))
 
 
+;;; Golang
+(use-package go-mode
+  :ensure t
+  :mode "\\.go\\'"
+  :init
+  (setq gofmt-command "goimports")
+  :config
+  (progn
+    (use-package company-go
+      :ensure t
+      :config
+      (add-to-list 'company-backends #'company-go))
+    (use-package go-eldoc)
+
+
+    (add-hook 'go-mode-hook #'go-eldoc-setup)
+    (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
+    (add-hook 'go-mode-hook #'yas-minor-mode)
+    (add-hook 'before-save-hook #'gofmt-before-save)
+
+    (bind-keys :map go-mode-map
+               ("C-c ." . godef-jump))))
+
+
 (provide 'init)
 
 ;;; init.el ends here
