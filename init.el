@@ -429,7 +429,7 @@
   :mode (("\.ts\\'" . typescript-mode))
   :ensure t
   :config
-  (add-hook 'typescript-mode-hook (lambda() (add-hook 'before-save-hook #'prettier-before-save)))
+  (add-hook 'typescript-mode-hook (lambda() (add-hook 'before-save-hook #'tide-format-before-save)))
   (add-hook 'typescript-mode-hook #'eldoc-mode)
   (add-hook 'typescript-mode-hook #'tide-setup)
   (add-hook 'typescript-mode-hook #'tide-hl-identifier-mode)
@@ -664,7 +664,9 @@
     (add-hook 'before-save-hook #'gofmt-before-save)
 
     (bind-keys :map go-mode-map
-               ("C-c ." . godef-jump))))
+               ("C-c ." . godef-jump)
+               ("C-c C-p r" . go-play-region)
+               ("C-c C-p b" . go-play-buffer))))
 
 
 (provide 'init)
