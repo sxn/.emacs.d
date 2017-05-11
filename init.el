@@ -315,7 +315,9 @@
 (use-package projectile
   :ensure t
   :init
-  (projectile-mode +1))
+  (setq projectile-enable-caching t)
+  (add-hook 'after-init-hook #'projectile-global-mode)
+  (add-hook 'projectile-find-file-hook #'bp-projectile-find-file-hook))
 
 ;; ag
 (use-package ag
