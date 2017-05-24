@@ -259,7 +259,8 @@
 (use-package projectile
   :ensure t
   :init (progn
-          (setq projectile-enable-caching t)
+          (setq projectile-enable-caching nil)
+          (setq projectile-project-root-files-bottom-up '(".projectile" ".gitignore" ".git"))
           (add-hook 'after-init-hook #'projectile-global-mode)
           (add-hook 'projectile-find-file-hook #'bp-projectile-find-file-hook)))
 
