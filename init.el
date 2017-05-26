@@ -429,7 +429,10 @@
   :commands (magit-status git-commit-mode)
   :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
          ("MERGE_MSG\\'"      . git-commit-mode))
-  :bind ("C-c m" . magit-status))
+  :config (bind-keys :map magit-blame-mode-map
+                     ("C-c q" . magit-blame-quit))
+  :bind (("C-c m" . magit-status)
+         ("C-c C-m b" . magit-blame)))
 
 
 ;; Code snippets
