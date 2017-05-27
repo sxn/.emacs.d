@@ -70,7 +70,7 @@
   (add-to-list 'default-frame-alist '(left . 0))
   (add-to-list 'default-frame-alist '(width . 188))
   (add-to-list 'default-frame-alist '(height . 50))
-  (add-to-list 'default-frame-alist '(fullscreen . fullboth))
+  ;(add-to-list 'default-frame-alist '(fullscreen . fullboth))
   ;; Transparency
   (set-frame-parameter (selected-frame) 'alpha '(97 . 97))
   (add-to-list 'default-frame-alist '(alpha . (95 . 95))))
@@ -349,11 +349,25 @@
   :mode ("\\.jsx?\\'" . rjsx-mode)
   :bind ("C-c C-d" . rjsx-delete-creates-full-tag)
   :config (progn
+            (use-package tern
+              :ensure t
+              :config (progn
+                        (bind-keys :map tern-mode-keymap
+                                   ("C-c ." . tern-find-definition)
+                                   ("C-c ," . tern-pop-find-definition))))
+            (use-package flycheck-flow
+              :ensure t)
+            (use-package company-flow
+              :ensure t
+              :config (add-to-list 'company-backends #'company-flow))
+            (use-package company-tern
+              :ensure t
+              :config (add-to-list 'company-backends #'company-tern))
             (use-package prettier-js
               :init (setq prettier-target-modes '("rjsx-mode")))
             (setq mode-require-final-newline t
                   js-indent-level 2)
-            (add-hook 'rjsx-mode-hook 'js2-imenu-extras-mode)
+            (add-hook 'rjsx-mode-hook 'tern-mode)
             (add-hook 'rjsx-mode-hook (lambda() (add-hook 'before-save-hook #'prettier-before-save)))))
 
 ;;; Python
@@ -396,13 +410,14 @@
             (use-package company-go
               :ensure t
               :config (add-to-list 'company-backends #'company-go))
+            (bind-keys :map go-mode-map
+                       ("C-c ." . godef-jump)
+                       ("C-c C-p r" . go-play-region)
+                       ("C-c C-p b" . go-play-buffer))
             (add-hook 'go-mode-hook #'go-eldoc-setup)
             (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
             (add-hook 'go-mode-hook #'yas-minor-mode)
-            (add-hook 'before-save-hook #'gofmt-before-save))
-  :bind (("C-c ." . godef-jump)
-         ("C-c C-p r" . go-play-region)
-         ("C-c C-p b" . go-play-buffer)))
+            (add-hook 'before-save-hook #'gofmt-before-save)))
 
 
 ;; Misc languages
@@ -445,7 +460,7 @@
   :diminish company-mode
   :ensure t
   :init (progn
-          (setq company-idle-delay 0.25)
+          (setq company-idle-delay 0.15)
           (add-hook 'after-init-hook #'global-company-mode)))
 
 
