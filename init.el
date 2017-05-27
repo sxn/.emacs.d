@@ -65,7 +65,7 @@
 ;;; UI
 ;; Font, fullscreen
 (when (window-system)
-  (add-to-list 'default-frame-alist '(font . "Operator Mono-14"))
+  (add-to-list 'default-frame-alist '(font . "Operator Mono-16"))
   (add-to-list 'default-frame-alist '(top . 5))
   (add-to-list 'default-frame-alist '(left . 0))
   (add-to-list 'default-frame-alist '(width . 188))
