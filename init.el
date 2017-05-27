@@ -325,7 +325,7 @@
          ("\\.css\\'" . web-mode)))
 
 (use-package typescript-mode
-  :mode (("\.ts\\'" . typescript-mode))
+  :mode (("\\.ts\\'" . typescript-mode))
   :ensure t
   :config (progn
             (defun sm-setup-tide ()
@@ -346,7 +346,7 @@
             (setq typescript-indent-level 2)))
 (use-package rjsx-mode
   :ensure t
-  :mode ("\.js\\'" . rjsx-mode)
+  :mode ("\\.jsx?\\'" . rjsx-mode)
   :bind ("C-c C-d" . rjsx-delete-creates-full-tag)
   :config (progn
             (use-package prettier-js
@@ -413,7 +413,7 @@
   :ensure t
   :config (setq json-reformat:indent-width 2
                 js-indent-level 2)
-  :mode (("\.json\\'" . json-mode)
+  :mode (("\\.json\\'" . json-mode)
          ("\.eslintrc\\'" . json-mode)))
 (use-package restclient
   :ensure t
