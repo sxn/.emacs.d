@@ -324,24 +324,25 @@
   :mode (("\\.html\\'" . web-mode)
          ("\\.css\\'" . web-mode)))
 
-(defun sm-setup-tide ()
-  (setq-local company-tooltip-align-annotations t)
-  (setq-local flycheck-check-syntax-automatically '(save mode-enabled)))
-(use-package tide
-  :ensure t
-  :config (bind-keys :map tide-mode-map
-                     ("C-c d" . tide-documentation-at-point)
-                     ("C-c ." . tide-jump-to-definition)
-                     ("C-c ," . tide-jump-back)))
 (use-package typescript-mode
   :mode (("\.ts\\'" . typescript-mode))
   :ensure t
   :config (progn
-            (add-hook 'typescript-mode-hook (lambda() (add-hook 'before-save-hook #'tide-format-before-save)))
-            (add-hook 'typescript-mode-hook #'eldoc-mode)
-            (add-hook 'typescript-mode-hook #'tide-setup)
-            (add-hook 'typescript-mode-hook #'tide-hl-identifier-mode)
+            (defun sm-setup-tide ()
+              (interactive)
+              (tide-setup)
+              (eldoc-mode +1)
+              (tide-hl-identifier-mode +1)
+              (setq-local company-tooltip-align-annotations t)
+              (setq-local flycheck-check-syntax-automatically '(save mode-enabled)))
+            (use-package tide
+              :ensure t
+              :config (bind-keys :map tide-mode-map
+                                 ("C-c d" . tide-documentation-at-point)
+                                 ("C-c ." . tide-jump-to-definition)
+                                 ("C-c ," . tide-jump-back)))
             (add-hook 'typescript-mode-hook #'sm-setup-tide)
+            (add-hook 'typescript-mode-hook (lambda() (add-hook 'before-save-hook #'tide-format-before-save)))
             (setq typescript-indent-level 2)))
 (use-package rjsx-mode
   :ensure t
@@ -350,13 +351,10 @@
   :config (progn
             (use-package prettier-js
               :init (setq prettier-target-modes '("rjsx-mode")))
-            (setq mode-require-final-newline nil
+            (setq mode-require-final-newline t
                   js-indent-level 2)
-            (add-hook 'rjsx-mode-hook (lambda() (add-hook 'before-save-hook #'prettier-before-save)))
-            (add-hook 'rjsx-mode-hook #'eldoc-mode)
-            (add-hook 'rjsx-mode-hook #'tide-setup)
-            (add-hook 'rjsx-mode-hook #'tide-hl-identifier-mode)
-            (add-hook 'rjsx-mode-hook #'sm-setup-tide)))
+            (add-hook 'rjsx-mode-hook 'js2-imenu-extras-mode)
+            (add-hook 'rjsx-mode-hook (lambda() (add-hook 'before-save-hook #'prettier-before-save)))))
 
 ;;; Python
 (use-package python
