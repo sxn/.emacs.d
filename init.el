@@ -343,7 +343,9 @@
                                  ("C-c ," . tide-jump-back)))
             (add-hook 'typescript-mode-hook #'sm-setup-tide)
             (add-hook 'typescript-mode-hook (lambda() (add-hook 'before-save-hook #'tide-format-before-save)))
-            (setq typescript-indent-level 2)))
+            (setq typescript-indent-level 2)
+            (setq tide-format-options '(:insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets t))))
+
 (use-package rjsx-mode
   :ensure t
   :mode ("\\.jsx?\\'" . rjsx-mode)
