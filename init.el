@@ -341,10 +341,11 @@
                                  ("C-c d" . tide-documentation-at-point)
                                  ("C-c ." . tide-jump-to-definition)
                                  ("C-c ," . tide-jump-back)))
+            (use-package prettier-js
+              :init (setq prettier-target-modes '("typescript-mode")))
             (add-hook 'typescript-mode-hook #'sm-setup-tide)
-            (add-hook 'typescript-mode-hook (lambda() (add-hook 'before-save-hook #'tide-format-before-save)))
             (setq typescript-indent-level 2)
-            (setq tide-format-options '(:insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets t))))
+            (add-hook 'typescript-mode-hook (lambda() (add-hook 'before-save-hook #'prettier-before-save)))))
 
 (use-package rjsx-mode
   :ensure t
