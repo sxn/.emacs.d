@@ -173,7 +173,8 @@
 (use-package files
   :init (setq auto-save-file-name-transforms `((".*" ,(concat local-temp-dir "/\\1") t))
               backup-directory-alist         `((".*" . ,local-temp-dir))
-              backup-by-copying t))
+              backup-by-copying t
+              create-lockfiles nil))
 
 ;; hl-line
 (use-package hl-line
