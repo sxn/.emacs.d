@@ -107,9 +107,9 @@
   (require 'server)
   (unless (server-running-p)
     (server-start))
-  (use-package color-theme-sanityinc-tomorrow
+  (use-package gotham-theme
     :ensure t
-    :config (load-theme 'sanityinc-tomorrow-eighties t)))
+    :config (load-theme 'gotham t)))
 
 ;;; Configure built-in packages
 ;; autorevert
