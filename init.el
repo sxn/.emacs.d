@@ -264,11 +264,17 @@
           (setq projectile-project-root-files-bottom-up '(".projectile" ".gitignore" ".git"))
           (setq projectile-switch-project-action 'projectile-commander)
           (add-hook 'after-init-hook #'projectile-global-mode))
-  :config (projectile-register-project-type 'npm '("package.json")
-                                            :compile "npm run build"
-                                            :test "npm run test"
-                                            :run "npm run start"
-                                            :test-suffix ".spec"))
+  :config (progn
+            (projectile-register-project-type 'angular2 '(".angular-cli.json")
+                                              :compile "npm run build"
+                                              :test "npm run test"
+                                              :run "npm run start"
+                                              :test-suffix ".spec")
+            (projectile-register-project-type 'react '("package.json" "src" "src/component" "src/actions")
+                                              :compile "yarn run build"
+                                              :test "yarn run test"
+                                              :run "yarn run start"
+                                              :test-suffix ".spec")))
 
 ;; Search
 (use-package ag
@@ -336,7 +342,7 @@
   (add-hook 'rxjs-mode-hook 'prettier-js-mode))
 
 (use-package typescript-mode
-  :mode (("\\.ts\\'" . typescript-mode))
+  :mode ("\\.tsx?\\'" . typescript-mode)
   :ensure t
   :init (progn
           (add-to-list 'projectile-other-file-alist '("module.ts" . ("component.ts")))
