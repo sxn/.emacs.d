@@ -263,7 +263,14 @@
           (setq projectile-enable-caching nil)
           (setq projectile-project-root-files-bottom-up '(".projectile" ".gitignore" ".git"))
           (setq projectile-switch-project-action 'projectile-commander)
-          (add-hook 'after-init-hook #'projectile-global-mode)))
+          (add-hook 'after-init-hook #'projectile-global-mode)
+
+          (projectile-register-project-type 'npm '("package.json")
+                                            :compile "npm run build"
+                                            :test "npm run test"
+                                            :run "npm run start"
+                                            :test-suffix ".spec")
+          ))
 
 ;; Search
 (use-package ag
@@ -321,7 +328,8 @@
                 web-mode-enable-current-element-highlight t
                 web-mode-engines-alist '(("django" . "\\.html\\'"))))
   :mode (("\\.html\\'" . web-mode)
-         ("\\.css\\'" . web-mode)))
+         ("\\.css\\'" . web-mode)
+         ("\\.php\\'" . web-mode)))
 
 (use-package prettier-js
   :init (setq prettier-js-args '("--single-quote" "true" "--print-width" "100"))
@@ -332,6 +340,9 @@
 (use-package typescript-mode
   :mode (("\\.ts\\'" . typescript-mode))
   :ensure t
+  :init (progn
+          (add-to-list 'projectile-other-file-alist '("component.html" . ("component.ts")))
+          (add-to-list 'projectile-other-file-alist '("component.ts" . ("component.html"))))
   :config (progn
             (defun sm-setup-tide ()
               (interactive)
