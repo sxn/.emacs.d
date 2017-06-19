@@ -262,8 +262,8 @@
   :init (progn
           (setq projectile-enable-caching nil)
           (setq projectile-project-root-files-bottom-up '(".projectile" ".gitignore" ".git"))
-          (add-hook 'after-init-hook #'projectile-global-mode)
-          (add-hook 'projectile-find-file-hook #'bp-projectile-find-file-hook)))
+          (setq projectile-switch-project-action 'projectile-commander)
+          (add-hook 'after-init-hook #'projectile-global-mode)))
 
 ;; Search
 (use-package ag
@@ -288,8 +288,6 @@
                   (message "Could not find projectile project root.")
                   (neotree))))))
   :config (progn
-            (setq neo-smart-open t
-                  projectile-switch-project-action 'neotree-projectile-action)
             (add-hook 'neotree-mode-hook
                       (lambda ()
                         (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
