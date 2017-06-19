@@ -42,7 +42,7 @@
 (add-to-list 'load-path (locate-user-emacs-file "vendor/packed"))
 (add-to-list 'load-path (locate-user-emacs-file "vendor/auto-compile"))
 (add-to-list 'load-path (locate-user-emacs-file "vendor/use-package"))
-(add-to-list 'load-path (locate-user-emacs-file "vendor/prettier-js"))
+(add-to-list 'load-path (locate-user-emacs-file "vendor/prettier"))
 
 ;;; auto-compile
 (require 'auto-compile)
@@ -325,6 +325,12 @@
   :mode (("\\.html\\'" . web-mode)
          ("\\.css\\'" . web-mode)))
 
+(use-package prettier-js
+  :init (setq prettier-js-args '("--single-quote" "true" "--print-width" "100"))
+  :config
+  (add-hook 'typescript-mode-hook 'prettier-js-mode)
+  (add-hook 'rxjs-mode-hook 'prettier-js-mode))
+
 (use-package typescript-mode
   :mode (("\\.ts\\'" . typescript-mode))
   :ensure t
@@ -342,11 +348,8 @@
                                  ("C-c d" . tide-documentation-at-point)
                                  ("C-c ." . tide-jump-to-definition)
                                  ("C-c ," . tide-jump-back)))
-            (use-package prettier-js
-              :init (setq prettier-target-modes '("typescript-mode")))
             (add-hook 'typescript-mode-hook #'sm-setup-tide)
-            (setq typescript-indent-level 2)
-            (add-hook 'typescript-mode-hook (lambda() (add-hook 'before-save-hook #'prettier-before-save)))))
+            (setq typescript-indent-level 2)))
 
 (use-package rjsx-mode
   :ensure t
@@ -367,12 +370,9 @@
             (use-package company-tern
               :ensure t
               :config (add-to-list 'company-backends #'company-tern))
-            (use-package prettier-js
-              :init (setq prettier-target-modes '("rjsx-mode")))
             (setq mode-require-final-newline t
                   js-indent-level 2)
-            (add-hook 'rjsx-mode-hook 'tern-mode)
-            (add-hook 'rjsx-mode-hook (lambda() (add-hook 'before-save-hook #'prettier-before-save)))))
+            (add-hook 'rjsx-mode-hook 'tern-mode)))
 
 ;;; Python
 (use-package python

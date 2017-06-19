@@ -7,3 +7,6 @@
 [submodule "vendor/flow-for-emacs"]
     path = vendor/flow-for-emacs
     url = git@github.com:flowtype/flow-for-emacs.git
+[submodule "vendor/prettier"]
+	path = vendor/prettier
+	url = https://github.com/prettier/prettier-emacs.git

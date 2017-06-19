@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: Angular 2 Service Spec
+# key: A2SS
+# --
+
+import { TestBed, inject } from '@angular/core/testing';
+
+import { $1Service } from './top-up.service';
+
+describe('$1Service', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [$1Service]
+    });
+  });
+
+  it('should be created', inject([$1Service], (service: $1Service) => {
+    expect(service).toBeTruthy();
+  }));
+});
