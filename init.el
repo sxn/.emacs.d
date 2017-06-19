@@ -99,7 +99,7 @@
 ;;; Theme
 ;; Disable current theme before loading the new one
 (defadvice load-theme
-  (before theme-dont-propagate activate)
+    (before theme-dont-propagate activate)
   (mapc #'disable-theme custom-enabled-themes))
 
 (if (not (display-graphic-p))
@@ -179,16 +179,16 @@
 ;; hl-line
 (use-package hl-line
   :config (progn
-    (define-global-minor-mode sm-global-hl-line-mode global-hl-line-mode
-      (lambda ()
-        ;; XXX: You can't turn off global-hl-line-mode on a per-buffer
-        ;; basis so we can just build up our own version that doesn't
-        ;; activate for a given list of modes.
-        (when (not (memq major-mode (list 'eww-mode
-                                          'term-mode
-                                          'org-agenda-mode)))
-          (hl-line-mode +1))))
-    (sm-global-hl-line-mode)))
+            (define-global-minor-mode sm-global-hl-line-mode global-hl-line-mode
+              (lambda ()
+                ;; XXX: You can't turn off global-hl-line-mode on a per-buffer
+                ;; basis so we can just build up our own version that doesn't
+                ;; activate for a given list of modes.
+                (when (not (memq major-mode (list 'eww-mode
+                                                  'term-mode
+                                                  'org-agenda-mode)))
+                  (hl-line-mode +1))))
+            (sm-global-hl-line-mode)))
 
 ;; uniquify
 (use-package uniquify
@@ -263,14 +263,12 @@
           (setq projectile-enable-caching nil)
           (setq projectile-project-root-files-bottom-up '(".projectile" ".gitignore" ".git"))
           (setq projectile-switch-project-action 'projectile-commander)
-          (add-hook 'after-init-hook #'projectile-global-mode)
-
-          (projectile-register-project-type 'npm '("package.json")
+          (add-hook 'after-init-hook #'projectile-global-mode))
+  :config (projectile-register-project-type 'npm '("package.json")
                                             :compile "npm run build"
                                             :test "npm run test"
                                             :run "npm run start"
-                                            :test-suffix ".spec")
-          ))
+                                            :test-suffix ".spec"))
 
 ;; Search
 (use-package ag
@@ -332,7 +330,7 @@
          ("\\.php\\'" . web-mode)))
 
 (use-package prettier-js
-  :init (setq prettier-js-args '("--single-quote" "true" "--print-width" "100"))
+  :init (setq prettier-js-args '("--single-quote" "true" "--print-width" "100" "--trailing-comma" "es5"))
   :config
   (add-hook 'typescript-mode-hook 'prettier-js-mode)
   (add-hook 'rxjs-mode-hook 'prettier-js-mode))
@@ -341,6 +339,7 @@
   :mode (("\\.ts\\'" . typescript-mode))
   :ensure t
   :init (progn
+          (add-to-list 'projectile-other-file-alist '("module.ts" . ("component.ts")))
           (add-to-list 'projectile-other-file-alist '("component.html" . ("component.ts")))
           (add-to-list 'projectile-other-file-alist '("component.ts" . ("component.html"))))
   :config (progn
