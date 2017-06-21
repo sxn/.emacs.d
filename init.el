@@ -336,7 +336,7 @@
          ("\\.php\\'" . web-mode)))
 
 (use-package prettier-js
-  :init (setq prettier-js-args '("--single-quote" "true" "--print-width" "100" "--trailing-comma" "es5"))
+  :init (setq prettier-js-args '("--single-quote" "true" "--print-width" "140"))
   :config
   (add-hook 'typescript-mode-hook 'prettier-js-mode)
   (add-hook 'rxjs-mode-hook 'prettier-js-mode))
