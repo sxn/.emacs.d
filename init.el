@@ -362,7 +362,7 @@
               (eldoc-mode +1)
               (tide-hl-identifier-mode +1)
               (setq-local company-tooltip-align-annotations t)
-              (setq-local flycheck-check-syntax-automatically '(save mode-enabled)))
+              (setq-local flycheck-check-syntax-automatically '(save new-line idle-change mode-enabled)))
             (use-package tide
               :ensure t
               :config (bind-keys :map tide-mode-map
@@ -383,11 +383,6 @@
                         (bind-keys :map tern-mode-keymap
                                    ("C-c ." . tern-find-definition)
                                    ("C-c ," . tern-pop-find-definition))))
-            (use-package flycheck-flow
-              :ensure t)
-            (use-package company-flow
-              :ensure t
-              :config (add-to-list 'company-backends #'company-flow))
             (use-package company-tern
               :ensure t
               :config (add-to-list 'company-backends #'company-tern))
@@ -491,14 +486,14 @@
 
 ;; Syntax checking
 (use-package flycheck
+  :commands flycheck-mode
   :ensure t
-  :init (add-hook 'after-init-hook #'global-flycheck-mode)
-  :config (progn
-            (setq-default flycheck-temp-prefix ".flycheck")
-            (setq-default flycheck-disabled-checkers
-                          (append flycheck-disabled-checkers
-                                  '(javascript-jshint)))
-            (flycheck-add-mode 'javascript-eslint 'rjsx-mode)))
+  :init
+  (progn
+    (add-hook 'prog-mode-hook #'flycheck-mode)
+    (setq-default flycheck-emacs-lisp-load-path 'inherit)
+    (setq-default flycheck-disabled-checkers '(sass javascript-jshint)))
+  :config (flycheck-add-mode 'javascript-eslint 'rjsx-mode))
 
 
 ;; Productivity
