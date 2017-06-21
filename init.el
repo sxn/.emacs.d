@@ -265,7 +265,7 @@
           (setq projectile-switch-project-action 'projectile-commander)
           (add-hook 'after-init-hook #'projectile-global-mode))
   :config (progn
-            (projectile-register-project-type 'angular2 '(".angular-cli.json")
+            (projectile-register-project-type 'angular2 '("protractor.conf.js")
                                               :compile "npm run build"
                                               :test "npm run test"
                                               :run "npm run start"
@@ -274,7 +274,7 @@
                                               :compile "yarn run build"
                                               :test "yarn run test"
                                               :run "yarn run start"
-                                              :test-suffix ".spec")))
+                                              :test-suffix "spec")))
 
 ;; Search
 (use-package ag
@@ -330,7 +330,13 @@
                 web-mode-enable-auto-expanding t
                 web-mode-enable-auto-pairing nil
                 web-mode-enable-current-element-highlight t
-                web-mode-engines-alist '(("django" . "\\.html\\'"))))
+                web-mode-engines-alist '(("django" . "\\.html\\'"))
+                web-mode-engines-alist '(("ctemplate" . "\\.component.html\\'")))
+
+          (add-hook 'web-mode-hook
+                    (lambda()
+                      (local-unset-key (kbd "C-c C-h"))))
+          )
   :mode (("\\.html\\'" . web-mode)
          ("\\.css\\'" . web-mode)
          ("\\.php\\'" . web-mode)))
@@ -345,9 +351,10 @@
   :mode ("\\.tsx?\\'" . typescript-mode)
   :ensure t
   :init (progn
-          (add-to-list 'projectile-other-file-alist '("module.ts" . ("component.ts")))
-          (add-to-list 'projectile-other-file-alist '("component.html" . ("component.ts")))
-          (add-to-list 'projectile-other-file-alist '("component.ts" . ("component.html"))))
+          (add-to-list 'projectile-other-file-alist '("module.ts" . ("component.ts" "component.html" "component.sass component.css component.less")))
+          (add-to-list 'projectile-other-file-alist '("component.html" . ("component.ts" "component.sass" "component.css" "component.less" "module.ts" )))
+          (add-to-list 'projectile-other-file-alist '("component.ts" . ("component.html" "component.sass" "component.css" "component.less" "module.ts" )))
+          (add-to-list 'projectile-other-file-alist '("component.sass" . ("component.html" "component.ts" "module.ts" ))))
   :config (progn
             (defun sm-setup-tide ()
               (interactive)
