@@ -1,12 +1,14 @@
 # -*- mode: snippet -*-
-# name: Angular2 Component
+# name: Angular Component
 # key: a2c
 # --
 import { Component } from '@angular/core';
 
 @Component({
   selector: '',
-  templateUrl: '',
+  templateUrl: './$1.component.html',
+  styleUrls: ['./$1.component.sass'],
+  animations: [],
 })
 export class $1Component {
   public constructor() {}

@@ -276,7 +276,7 @@
                                               :run "yarn run start"
                                               :test-suffix "spec")))
 
-;; Search
+;; Search - The silver searcher
 (use-package ag
   :ensure t
   :init (setq ag-highlight-search t

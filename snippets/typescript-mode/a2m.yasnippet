@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: Angular2 Module
+# name: Angular Module
 # key: a2m
 # --
 import { NgModule } from '@angular/core';
@@ -7,8 +7,122 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule],
-  declarations: [],
-  exports: []
+  providers: [
+    /**
+     * Defines the set of injectable objects that are available in the injector
+     * of this module.
+     *
+     * ## Simple Example
+     *
+     * Here is an example of a class that can be injected:
+     *
+     * ```
+     * class Greeter {
+     *    greet(name:string) {
+     *      return 'Hello ' + name + '!';
+     *    }
+     * }
+     *
+     * @NgModule({
+     *   providers: [
+     *     Greeter
+     *   ]
+     * })
+     * class HelloWorld {
+     *   greeter:Greeter;
+     *
+     *   constructor(greeter:Greeter) {
+     *     this.greeter = greeter;
+     *   }
+     * }
+     * ```
+     */
+  ],
+  declarations: [
+    /**
+     * Specifies a list of directives/pipes that belong to this module.
+     *
+     * ### Example
+     *
+     * ```javascript
+     * @NgModule({
+     *   declarations: [NgFor]
+     * })
+     * class CommonModule {
+     * }
+     * ```
+     */
+  ],
+  imports: [
+    /**
+     * Specifies a list of modules whose exported directives/pipes
+     * should be available to templates in this module.
+     * This can also contain {@link ModuleWithProviders}.
+     *
+     * ### Example
+     *
+     * ```javascript
+     * @NgModule({
+     *   imports: [CommonModule]
+     * })
+     * class MainModule {
+     * }
+     * ```
+     */
+    CommonModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    /**
+     * Specifies a list of directives/pipes/modules that can be used within the template
+     * of any component that is part of an Angular module
+     * that imports this Angular module.
+     *
+     * ### Example
+     *
+     * ```javascript
+     * @NgModule({
+     *   exports: [NgFor]
+     * })
+     * class CommonModule {
+     * }
+     * ```
+     */
+  ],
+  entryComponents: [
+    /**
+     * Specifies a list of components that should be compiled when this module is defined.
+     * For each component listed here, Angular will create a {@link ComponentFactory}
+     * and store it in the {@link ComponentFactoryResolver}.
+     */
+  ],
+  bootstrap: [
+    /**
+     * Defines the components that should be bootstrapped when
+     * this module is bootstrapped. The components listed here
+     * will automatically be added to `entryComponents`.
+     */
+  ],
+  schemas: [
+    /**
+     * Elements and properties that are not Angular components nor directives have to be declared in
+     * the schema.
+     *
+     * Available schemas:
+     * - `NO_ERRORS_SCHEMA`: any elements and properties are allowed,
+     * - `CUSTOM_ELEMENTS_SCHEMA`: any custom elements (tag name has "-") with any properties are
+     *   allowed.
+     *
+     * @security When using one of `NO_ERRORS_SCHEMA` or `CUSTOM_ELEMENTS_SCHEMA` we're trusting that
+     * allowed elements (and its properties) securely escape inputs.
+     */
+  ],
+  id: [
+    /**
+     * An opaque ID for this module, e.g. a name or a path. Used to identify modules in
+     * `getModuleFactory`. If left `undefined`, the `NgModule` will not be registered with
+     * `getModuleFactory`.
+     */
+  ]
 })
 export class $1Module {}
