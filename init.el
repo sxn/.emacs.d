@@ -107,9 +107,9 @@
   (require 'server)
   (unless (server-running-p)
     (server-start))
-  (use-package gotham-theme
+  (use-package color-theme-sanityinc-solarized
     :ensure t
-    :config (load-theme 'gotham t)))
+    :config (load-theme 'sanityinc-solarized-dark t)))
 
 ;;; Configure built-in packages
 ;; autorevert
@@ -212,7 +212,7 @@
               ido-max-prospects 10
               ido-ignore-extensions t)
   :config (progn
-            (use-package ido-ubiquitous
+            (use-package ido-completing-read+
               :ensure t
               :config (ido-ubiquitous-mode +1))
             (use-package ido-vertical-mode
