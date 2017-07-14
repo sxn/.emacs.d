@@ -286,6 +286,18 @@
 (use-package neotree
   :ensure t
   :init (progn
+          (use-package all-the-icons
+            :ensure t
+            :config (add-to-list 'all-the-icons-icon-alist
+                                 '("\\.ts"
+                                   all-the-icons-fileicon "typescript-alt"
+                                   :height 1.0
+                                   :face all-the-icons-red))
+            (add-to-list 'all-the-icons-icon-alist
+                         '("\\.tsx$"
+                           all-the-icons-alltheicon "tsx-alt"
+                           :height 1.0
+                           :face all-the-icons-blue)))
           (defun sm-neotree-project-dir ()
             "Open NeoTree using the projectile root."
             (interactive)
@@ -299,6 +311,7 @@
                   (message "Could not find projectile project root.")
                   (neotree))))))
   :config (progn
+            (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
             (add-hook 'neotree-mode-hook
                       (lambda ()
                         (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
