@@ -43,6 +43,7 @@
 (add-to-list 'load-path (locate-user-emacs-file "vendor/auto-compile"))
 (add-to-list 'load-path (locate-user-emacs-file "vendor/use-package"))
 (add-to-list 'load-path (locate-user-emacs-file "vendor/prettier"))
+(add-to-list 'load-path (locate-user-emacs-file "vendor/flow-for-emacs"))
 
 ;;; auto-compile
 (require 'auto-compile)
@@ -362,6 +363,7 @@
                                  ))
   :config
   (add-hook 'typescript-mode-hook 'prettier-js-mode)
+  (add-hook 'scss-mode-hook 'prettier-js-mode)
   (add-hook 'rxjs-mode-hook 'prettier-js-mode))
 
 (use-package typescript-mode
@@ -371,7 +373,9 @@
           (add-to-list 'projectile-other-file-alist '("module.ts" . ("component.ts" "component.html" "component.sass component.css component.less")))
           (add-to-list 'projectile-other-file-alist '("component.html" . ("component.ts" "component.sass" "component.css" "component.less" "module.ts" )))
           (add-to-list 'projectile-other-file-alist '("component.ts" . ("component.html" "component.sass" "component.css" "component.less" "module.ts" )))
-          (add-to-list 'projectile-other-file-alist '("component.sass" . ("component.html" "component.ts" "module.ts" ))))
+          (add-to-list 'projectile-other-file-alist '("component.sass" . ("component.html" "component.ts" "module.ts" )))
+          (add-to-list 'projectile-other-file-alist '("tsx" "scss" ))
+          (add-to-list 'projectile-other-file-alist '("scss" "tsx" )))
   :config (progn
             (defun sm-setup-tide ()
               (interactive)
