@@ -96,6 +96,7 @@
 ;; Show current (row, col) in modeline.
 (column-number-mode +1)
 (line-number-mode +1)
+(global-display-line-numbers-mode +1)
 
 ;;; Theme
 ;; Disable current theme before loading the new one
