@@ -46,7 +46,7 @@
        unicode             ; extended unicode support for various languages
        vc-gutter           ; vcs diff in the fringe
        vi-tilde-fringe     ; fringe tildes to mark beyond EOB
-       window-select       ; visually switch windows
+       ;;window-select     ; visually switch windows
        workspaces          ; tab emulation, persistence & separate workspaces
        ;;zen               ; distraction-free coding or writing
 
@@ -91,7 +91,7 @@
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
        gist                ; interacting with github gists
-       lookup              ; navigate your code and its documentation
+       (lookup +docsets)   ; navigate your code and its documentation
        lsp
        magit               ; a git porcelain for Emacs
        make                ; run make tasks from Emacs
