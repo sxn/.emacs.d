@@ -144,6 +144,16 @@
                            (mu4e-sent-messages-behavior . sent)))
 
                   (make-mu4e-context
+                   :name "digital-loop.com"
+                   :match-func (sm-make-mu4e-matcher "digital-loop.com" '("s.muntean@digital-loop.com"))
+                   :vars '((user-mail-address           . "s.muntean@digital-loop.com")
+                           (mu4e-refile-folder          . "/digital-loop.com/archive")
+                           (mu4e-sent-folder            . "/digital-loop.com/sent")
+                           (mu4e-drafts-folder          . "/digital-loop.com/drafts")
+                           (mu4e-trash-folder           . "/digital-loop.com/trash")
+                           (mu4e-sent-messages-behavior . sent)))
+
+                  (make-mu4e-context
                    :name "kigroup.de"
                    :match-func (sm-make-mu4e-matcher "kigroup.de" '("s.muntean@kigroup.de"))
                    :vars '((user-mail-address           . "s.muntean@kigroup.de")
