@@ -236,15 +236,14 @@
         (concat
          (make-temp-name
           (concat folder
-                  (format-time-string "%Y%m%d_%H%M%S_")) ) ".png"))
-
-  (message filename)
+                  (format-time-string "%Y%m%d_%H%M%S_")))
+         ".png"))
 
   (unless (file-exists-p (file-name-directory filename))
     (make-directory (file-name-directory filename)))
-  ; take screenshot
+
   (call-process "pngpaste" nil nil nil filename)
-  ; insert into file if correctly taken
+
   (if (file-exists-p filename)
       (insert (concat "![" filename "](" filename ")"))
       (message "Couldn't save image")))
