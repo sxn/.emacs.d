@@ -170,6 +170,12 @@
 (set-docsets! 'racket-mode "Racket")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; format-all ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq +format-on-save-enabled-modes '(not php-mode))
+(setq format-all-mode nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; git/magit ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! magit
@@ -183,6 +189,30 @@
   ;; existing one. For example if I've got `.env.example' and want to create
   ;; `.env'.
   (setq ivy-use-selectable-prompt t))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; markdown ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun sm-save-and-link-clipboard-image ()
+  (interactive)
+
+  (setq folder (read-directory-name "Directory:" "static/"))
+
+  (setq filename
+        (concat
+         (make-temp-name
+          (concat folder
+                  (format-time-string "%Y%m%d_%H%M%S_")))
+         ".png"))
+
+  (unless (file-exists-p (file-name-directory filename))
+    (make-directory (file-name-directory filename)))
+
+  (call-process "pngpaste" nil nil nil filename)
+
+  (if (file-exists-p filename)
+      (insert (concat "![" filename "](" filename ")"))
+      (message "Couldn't save image")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; projectile ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -223,27 +253,3 @@
                              (split-string dockernames-raw "\n"))))
           (setq ad-return-value dockernames))
       ad-do-it)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; markdown ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun sm-save-and-link-clipboard-image ()
-  (interactive)
-
-  (setq folder (read-directory-name "Directory:" "static/"))
-
-  (setq filename
-        (concat
-         (make-temp-name
-          (concat folder
-                  (format-time-string "%Y%m%d_%H%M%S_")))
-         ".png"))
-
-  (unless (file-exists-p (file-name-directory filename))
-    (make-directory (file-name-directory filename)))
-
-  (call-process "pngpaste" nil nil nil filename)
-
-  (if (file-exists-p filename)
-      (insert (concat "![" filename "](" filename ")"))
-      (message "Couldn't save image")))
