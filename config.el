@@ -68,9 +68,9 @@
   (add-hook! racket-mode #'racket-xp-mode #'parinfer-mode)
 
   (setq
-    racket-smart-open-bracket-mode   nil
-    racket-repl-buffer-name-function #'racket-repl-buffer-name-project
-    racket-show-functions            '(racket-show-echo-area)))
+   racket-smart-open-bracket-mode   nil
+   racket-repl-buffer-name-function #'racket-repl-buffer-name-project
+   racket-show-functions            '(racket-show-echo-area)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; pollen ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -170,12 +170,6 @@
 (set-docsets! 'racket-mode "Racket")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; format-all ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq +format-on-save-enabled-modes '(not php-mode))
-(setq format-all-mode nil)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; git/magit ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! magit
@@ -212,7 +206,7 @@
 
   (if (file-exists-p filename)
       (insert (concat "![" filename "](" filename ")"))
-      (message "Couldn't save image")))
+    (message "Couldn't save image")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; projectile ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -243,7 +237,7 @@
    tramp-methods)
 
   (defadvice tramp-completion-handle-file-name-all-completions
-    (around dotemacs-completion-docker activate)
+      (around dotemacs-completion-docker activate)
     "(tramp-completion-handle-file-name-all-completions \"\" \"/docker:\" returns
       a list of active Docker container names, followed by colons."
     (if (equal (ad-get-arg 1) "/docker:")
