@@ -16,6 +16,7 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
+
 (setq doom-font (font-spec :family "Dank Mono" :size 16)
       ;; There are two ways to load a theme. Both assume the theme is installed and
       ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -35,6 +36,7 @@
 
       ;; by default, which-key triggers slower than I want
       which-key-idle-delay 0.3)
+(set-cursor-color "#FF0000")
 
 ;; Emacs Mac Port binds `<swipe-left>` and `<swipe-right>' to
 ;; `mac-previous-buffer' and `mac-next-buffer'. Let's remove that silliness.
