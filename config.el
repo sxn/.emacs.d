@@ -36,7 +36,6 @@
 
       ;; by default, which-key triggers slower than I want
       which-key-idle-delay 0.3)
-(set-cursor-color "#FF0000")
 
 ;; Emacs Mac Port binds `<swipe-left>` and `<swipe-right>' to
 ;; `mac-previous-buffer' and `mac-next-buffer'. Let's remove that silliness.
