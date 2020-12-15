@@ -30,6 +30,7 @@
        doom                ; what makes DOOM look the way it does
        ;;doom-dashboard    ; a nifty splash screen for Emacs
        ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       (emoji +unicode)    ; 🙂
        ;;fill-column       ; a `fill-column' indicator
        hl-todo             ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
@@ -54,7 +55,7 @@
        (evil +everywhere)  ; come to the dark side, we have cookies
        file-templates      ; auto-snippets for empty files
        fold                ; (nigh) universal code folding
-       (format +onsave) ; automated prettiness
+       (format +onsave)    ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
        multiple-cursors    ; editing in many places at once
@@ -84,7 +85,7 @@
 
        :tools
        ansible
-       debugger            ; FIXME stepping through code, to help you add bugs
+       ;;debugger          ; FIXME stepping through code, to help you add bugs
        ;;direnv
        docker
        editorconfig        ; let someone else argue about tabs vs spaces
@@ -95,7 +96,6 @@
        lsp
        magit               ; a git porcelain for Emacs
        make                ; run make tasks from Emacs
-       neuron
        pass                ; password manager for nerds
        pdf                 ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
@@ -112,7 +112,7 @@
        :lang
        ;;agda              ; types of types of types of types...
        cc                  ; C/C++/Obj-C madness
-       clojure             ; java with a lisp
+       ;;clojure           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
