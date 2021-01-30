@@ -71,7 +71,7 @@
 ;; racket ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! racket-mode
-  (add-hook! racket-mode #'racket-xp-mode #'parinfer-mode)
+  (add-hook! racket-mode #'racket-xp-mode)
 
   (setq
    racket-smart-open-bracket-mode   nil
