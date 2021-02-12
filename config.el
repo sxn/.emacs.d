@@ -18,11 +18,11 @@
 ;; font string. You generally only need these two:
 
 (setq doom-font (font-spec :family "Dank Mono" :size 16)
-      doom-variable-pitch-font (font-spec :family "Fira Code")
+      doom-variable-pitch-font (font-spec :family "Dank Mono")
       ;; There are two ways to load a theme. Both assume the theme is installed and
       ;; available. You can either set `doom-theme' or manually load a theme with the
       ;; `load-theme' function. This is the default:
-      doom-theme 'doom-ephemeral
+      doom-theme 'doom-monokai-classic
       ;; If you use `org' and don't want your org files in the default location below,
       ;; change `org-directory'. It must be set before org loads!
       org-directory "~/org/"
