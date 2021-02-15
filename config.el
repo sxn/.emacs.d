@@ -269,3 +269,10 @@
                              (split-string dockernames-raw "\n"))))
           (setq ad-return-value dockernames))
       ad-do-it)))
+
+(after! treemacs
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-git-mode 'deferred)
+    (treemacs-toggle-show-dotfiles)
+    (treemacs-fringe-indicator-mode 'always))
