@@ -38,6 +38,9 @@
       gc-cons-percentage 0.7
       garbage-collection-messages nil
 
+      lsp-enable-file-watchers t
+      lsp-file-watch-threshold 30000
+
       ;; by default, which-key triggers slower than I want
       which-key-idle-delay 0.3)
 
