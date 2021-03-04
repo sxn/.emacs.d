@@ -280,6 +280,3 @@
                              (split-string dockernames-raw "\n"))))
           (setq ad-return-value dockernames))
       ad-do-it)))
-
-(after! treemacs
-    (treemacs-git-mode 'deferred))
