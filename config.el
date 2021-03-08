@@ -34,6 +34,8 @@
       display-line-numbers-type nil
 
       evil-move-cursor-back nil
+      ;; https://evil.readthedocs.io/en/latest/settings.html#elispobj-evil-cross-lines
+      evil-cross-lines t
 
       ;; disable hl-line globally because it is exceptionally slow
       global-hl-line-modes nil
