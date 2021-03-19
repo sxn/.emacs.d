@@ -81,3 +81,5 @@
   :recipe (:host github
            :repo "emacs-pe/scribble-mode"
            :branch "master"))
+
+(package! github-modern-theme)
