@@ -21,11 +21,10 @@
 ;; font string. You generally only need these two:
 
 (setq doom-font (font-spec :family "Dank Mono" :size 15)
-      doom-variable-pitch-font (font-spec :family "Dank Mono")
       ;; There are two ways to load a theme. Both assume the theme is installed and
       ;; available. You can either set `doom-theme' or manually load a theme with the
       ;; `load-theme' function. This is the default:
-      doom-theme 'tsdh-light
+      doom-theme 'doom-monokai-pro
       ;; If you use `org' and don't want your org files in the default location below,
       ;; change `org-directory'. It must be set before org loads!
       org-directory "~/org/"
@@ -46,12 +45,10 @@
       garbage-collection-messages nil
 
       lsp-enable-file-watchers t
-      lsp-file-watch-threshold 30000
+      lsp-file-watch-threshold 5000
 
       ;; by default, which-key triggers slower than I want
       which-key-idle-delay 0.3)
-
-(set-cursor-color "#FF0000")
 
 ;; Emacs Mac Port binds `<swipe-left>` and `<swipe-right>' to
 ;; `mac-previous-buffer' and `mac-next-buffer'. Let's remove that silliness.
