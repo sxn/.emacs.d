@@ -27,7 +27,7 @@
       doom-theme 'doom-one-light
       ;; If you use `org' and don't want your org files in the default location below,
       ;; change `org-directory'. It must be set before org loads!
-      org-directory "~/org/"
+      org-directory "~/Notes/org/"
       ;; This determines the style of line numbers in effect. If set to `nil', line
       ;; numbers are disabled. For relative line numbers, set this to `relative'.
       display-line-numbers-type nil
