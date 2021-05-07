@@ -83,3 +83,5 @@
            :branch "master"))
 
 (package! github-modern-theme)
+
+(package! ecukes)
