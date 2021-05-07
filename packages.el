@@ -84,4 +84,4 @@
 
 (package! github-modern-theme)
 
-(package! ecukes)
+(package! feature-mode)
