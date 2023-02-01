@@ -27,7 +27,7 @@
       org-directory "~/Notes/org/"
       ;; This determines the style of line numbers in effect. If set to `nil', line
       ;; numbers are disabled. For relative line numbers, set this to `relative'.
-      display-line-numbers-type nil
+      display-line-numbers-type 'relative
 
       evil-move-cursor-back nil
       ;; https://evil.readthedocs.io/en/latest/settings.html#elispobj-evil-cross-lines
