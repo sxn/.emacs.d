@@ -1,5 +1,18 @@
 (tool-bar-mode -1)
 
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
 (setq
  user-full-name "Sorin Muntean"
  user-mail-address "me@sorinmuntean.ro"
@@ -42,3 +55,7 @@
 
 (add-to-list 'default-frame-alist '(font . "-*-Dank Mono-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1"))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;; Packages
+(straight-use-package 'magit)
+(straight-use-package 'dired+)
